@@ -3,14 +3,17 @@ from astropy.io import ascii
 
 # ------- Functions -------
 
-def read_data(data_file):
-    ''' Reads the data fro data_file and stores it in an table.
+def read_data(galaxy_name):
+    ''' Reads the data file containing the rotations curve of a galaxy and pass the data to a table.
     input:
-        data_file: file containing the data from rotation curves of galaxies with the following format:
+        galaxy_name: (str) Name of the galaxy whose rotationcurve data is store in the file ../data/galaxy_name.dat with the followig format:
             Radius |  vgas   |  vdisk  |  vbulge |  vobs   | err vobs|   Vu    |   Vt    |   Rxv   |   Vxy   |
             kpc       km/s      km/s       km/s     km/s     km/s       km/s      km/s       kpc       km/s
     output:
-        table: Table wiht de data.(QTable)
+        table: (QTable) Table wiht de data.
     '''
-    table = ascii.read('data_file')
+
+    colnames=['radius','vgas', 'vdisk', 'vbulge', 'vobs', 'err-vobs', 'vu', 'vt', 'rxv', 'vxy']
+    table = ascii.read('../data/'+galaxy_name+'.dat', names=colnames)
+    table = QTable(table)
     return(table)
