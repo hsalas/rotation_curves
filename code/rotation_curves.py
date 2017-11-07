@@ -1,19 +1,25 @@
 from astropy.table import QTable
 from astropy.io import ascii
 
+import read_data
+import argparse
+
+help_text = 'Reads data from files containing rotation curves of galaxies'
+sign_off = 'Author: Hector Salas <hector.salas.o@gmail.com>'
+
+parser = argparse.ArgumentParser(description=help_text, epilog=sign_off)
+
+parser.add_argument('-file', '--File', type=str, default='ngc3198.dat', dest='file', metavar='FILE', help='Name of file containing the rotation curve of the galaxy.Default value "ngc3198" ',action='store')
+parser.add_argument('-path', '--Path', type=str, default='../data/', dest='path', metavar='PATH', help='Path of dorectory containing the data files. Default value "../data/ .',action='store')
+
+arguments = parser.parse_args()
+data_file = arguments.file
+directory = arguments.path
+
 # ------- Functions -------
 
-def read_data(galaxy_name):
-    ''' Reads the data file containing the rotations curve of a galaxy and pass the data to a table.
-    input:
-        galaxy_name: (str) Name of the galaxy whose rotationcurve data is store in the file ../data/galaxy_name.dat with the followig format:
-            Radius |  vgas   |  vdisk  |  vbulge |  vobs   | err vobs|   Vu    |   Vt    |   Rxv   |   Vxy   |
-            kpc       km/s      km/s       km/s     km/s     km/s       km/s      km/s       kpc       km/s
-    output:
-        table: (QTable) Table wiht de data.
-    '''
 
-    colnames=['radius','vgas', 'vdisk', 'vbulge', 'vobs', 'err-vobs', 'vu', 'vt', 'rxv', 'vxy']
-    table = ascii.read('../data/'+galaxy_name+'.dat', names=colnames)
-    table = QTable(table)
-    return(table)
+#------------MAIN------------
+
+if __name__ == '__main__':
+    read_data(data_file, directory)
