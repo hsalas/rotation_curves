@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-
 '''Script that reads data files with rotation curves of galaxies
 
 Author: Hector Salas <hector.salas.o@gmail.com>'
@@ -11,17 +9,24 @@ import astropy.units as u
 
 # ------- Functions -------
 
-def read_data_file(data_file, directory):
-    ''' Reads the data file containing the rotations curve of a galaxy and pass the data to a table.
+
+def read_data(data_file, directory):
+
+    ''' Reads the data file containing the rotations curve of a galaxy and pass
+    the data to a table.
     input:
-        data_file: (str) Name of the file containg the rotation curve of the galaxy.
-            Radius |  vgas   |  vdisk  |  vbulge |  vobs   | err vobs|   Vu    |   Vt    |   Rxv   |   Vxy   |
-            kpc       km/s      km/s       km/s     km/s     km/s       km/s      km/s       kpc       km/s
+        data_file:  str
+                    Name of the file containg the rotation curve of the galaxy.
+                    Must have the following columns:
+
+                    Radius [kpc], vgas [km/s], vdisk [km/s], vbulge [km/s],
+                    vobs [km/s], err vobs [km/s], Vu [km/s], Vt [km/s],
+                    Rxv [kpc], Vxy [km/s]
     output:
         table: (QTable) Table wiht de data.
     '''
 
-    colnames = ['radius','vgas', 'vdisk', 'vbulge', 'vobs', 'err-vobs', 'vu', 'vt', 'rxv', 'vxy']
+    colnames = ['radius', 'vgas', 'vdisk', 'vbulge', 'vobs', 'err-vobs', 'vu', 'vt', 'rxv', 'vxy']
 
     table = ascii.read(directory + data_file, names=colnames)
     table = Table(table)
