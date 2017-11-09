@@ -22,4 +22,4 @@ directory = arguments.path
 #------------MAIN------------
 
 if __name__ == '__main__':
-    read_data(data_file, directory)
+    data = read_data(data_file, directory)
