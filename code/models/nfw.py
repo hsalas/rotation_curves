@@ -49,9 +49,11 @@ def halo_nfw(r, par_list):
         raise ZeroDivisionError("par_list[0] value must be different than 0")
     else:
         pass
+    r = r*u.kpc
     v200 = par_list[0]*u.km/u.s
     c = par_list[1]
-    r200 = v200/cosmo.h
+    r200 = v200/(cosmo.H0/100.)
     x = r/r200
-    v = v200*np.power((np.log(1.0+c*x)-c*x/(1.0+c*x))/(x*(no.log(1.0+c)-c/(1.0+c))), 0.5)
+    v = v200*np.power((np.log(1.0+c*x)-c*x/(1.0+c*x))/(x*(np.log(1.0+c)-c/(1.0+c))), 0.5)
+    v = v.to(u.km/u.s)
     return(v)
