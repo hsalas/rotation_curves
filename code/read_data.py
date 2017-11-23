@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 '''Script that reads data files with rotation curves of galaxies
 
 Author: Hector Salas <hector.salas.o@gmail.com>'
