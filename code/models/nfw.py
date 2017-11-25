@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 '''Navarro-Frenk-White halo model
 
 Author: Hector Salas <hector.salas.o@gmail.com>'

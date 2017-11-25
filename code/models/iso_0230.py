@@ -91,6 +91,6 @@ def halo_iso_0230(r, par_list):
     rho_0 = param[0]*10**(-3)*u.M_sun/(u.pc)**3
     rc = par_list[1]*u.kpc
     # rho = rho_0/np.power(1.0 + np.power(r/rc,2), 1.5)
-    mass = [4*np.pi*integrate.romberg(rho, 0., r[i] for i in r]
+    mass = [4*np.pi*integrate.romberg(rho, 0., r[i]) for i in r]
     v = np.sqrt(G*mass/r)
     return(v)
