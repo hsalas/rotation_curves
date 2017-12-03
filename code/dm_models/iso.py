@@ -15,9 +15,9 @@ from astropy.modeling import Fittable1DModel, Parameter
 
 # ------- Functions -------
 
-class halo_iso(Fittable1DModel):
-    '''ISO dark mater halo model.
 
+class halo_iso(Fittable1DModel):
+    '''ISO dark mater halo model
     Inputs:
         r:  array_like.
             Radius in Kpc.
