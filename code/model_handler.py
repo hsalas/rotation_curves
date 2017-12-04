@@ -8,7 +8,7 @@ Author: Hector Salas <hector.salas.o@gmail.com>'
 # ------- Imports -------
 
 import os
-from models import *
+from dm_models import *
 
 # ------- Functions -------
 
@@ -49,29 +49,18 @@ def model_name(model_name):
     name = model_name.lower()
 
     if 'nfw' in name:
-        model = nfw.halo_nfw
+        model = nfw.halo_nfw(1.,1.)
         name = 'NFW'
     elif 'einasto' in name:
-        model = einasto2.halo_einasto2
+        model = einasto2.halo_einasto2(1.,1.,1.)
         name = 'Einasto'
     elif 'iso0230' in name:
-        model = iso_0230.halo_iso_0230
+        model = iso_0230.halo_iso_0230(1.,1.)
         name = 'ISO0230'
     elif 'iso' in name:
-        model = iso.halo_iso
+        model = iso.halo_iso(1.,1.)
         name = 'ISO'
     else:
         raise ValueError("Invalid model name. Chek list of available models")
         get_model_list()
     return((model, name))
-
-
-def main():
-    model = model_name('nfw')
-
-
-# ------- main -------
-
-
-if __name__ == '__main__':
-    main()
