@@ -32,7 +32,7 @@ class halo_iso_0230(Fittable1DModel):
     outputs = ('v',)
 
     rho_0 = Parameter(bounds=(1e-8, 1e3))
-    rc = Parameter(bounds=(1e-12, 300))
+    rc = Parameter(bounds=(0, 300))
     fit_deriv = None
 
     @staticmethod
