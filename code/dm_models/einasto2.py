@@ -47,7 +47,8 @@ class halo_einasto2(Fittable1DModel):
         '''Einasto dark matter model function
         '''
         r = r*u.kpc
-        rho_e2 = rho_e2*u.M_sun/np.power(u.pc, 3)
+        rho_e2 = rho_e2*u.M_sun/(u.pc** 3)
+        rho_e2 = rho_e2.to(u.M_sun/(u.kpc**3))
         r_e2 = r_e2*u.kpc   # rayon de densite rho2
         dn = 2.0*mu
         xx = dn*np.power(r/r_e2, 1.0/mu)
