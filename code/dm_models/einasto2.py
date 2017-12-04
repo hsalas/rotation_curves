@@ -39,7 +39,7 @@ class halo_einasto2(Fittable1DModel):
 
     rho_e2 = Parameter(bounds=(1e-8, 1e3))
     r_e2 = Parameter(bounds=(1e-8, 300))
-    mu = Parameter(bounds=(1e-8, 20))
+    mu = Parameter(bounds=(0, 20))
     fit_deriv = None
 
     @staticmethod
