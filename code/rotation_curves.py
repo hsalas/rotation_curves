@@ -49,15 +49,10 @@ def main():
     data = read_data.read_data(data_file, directory)
     model = model_handler.model_caller(model_name)
     result = fits.fit(data, model[0])
-    plots.plot(data, result[0], model[1], show=out)
+    plots.plot(data, result[0], model[1], data_file, show=out)
     logs.log(data_file, model[1], result, show=out)
 
 # ------------MAIN------------
 
 if __name__ == '__main__':
     main()
-    # data = read_data.read_data(data_file, directory)
-    # model = model_handler.model_caller(model_name)
-    # result = fits.fit(data, model[0])
-    # plots.plot(data, result[0], model[1], data_file, show=out)
-    # logs.log(data_file, model[1], result, show=out)
