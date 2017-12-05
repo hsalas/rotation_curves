@@ -58,20 +58,19 @@ def model_caller(model_name):
                     String with model name in prefered format.
     '''
     name = model_name.lower()
-
-    # Call to new models should be added here as an elif.
-    if 'nfw' in name:
+    if  name =='nfw':
         model = nfw.NFW(1.,1.)
         name = 'NFW'
-    elif 'einasto' in name:
+    elif name == 'einasto':
         model = einasto2.EINASTO2(1.,1.,1.)
         name = 'Einasto'
-    elif 'iso0230' in name:
+    elif (name == 'iso0230') or (name == 'iso_0230'):
         model = iso_0230.ISO_0230(1.,1.)
         name = 'ISO0230'
-    elif 'iso' in name:
+    elif name == 'iso':
         model = iso.ISO(1.,1.)
         name = 'ISO'
+    # Call to new models should be added here as an elif.
     else:
         raise ValueError("Invalid model name. Chek list of available models")
         get_model_list()
