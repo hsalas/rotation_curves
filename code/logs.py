@@ -38,4 +38,4 @@ def log(data_file, name, result,  show=1):
             for key in fit_info.keys():
                 f.write(f'\n{key}\t{fit_info[key]}\n')
         f.close
-        print(f'fit log save to fit_{data}_{name}.log in logs directory')
+        print(f'Fit log save to fit_{data}_{name}.log in logs directory')
