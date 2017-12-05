@@ -18,7 +18,7 @@ from astropy.constants import G, M_sun
 # ------- Functions -------
 
 
-class halo_einasto2(Fittable1DModel):
+class EINASTO2(Fittable1DModel):
     '''Einasto dark matter halo model
     Inputs:
         r:  array_like

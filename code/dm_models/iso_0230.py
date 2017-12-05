@@ -15,7 +15,7 @@ from scipy.integrate import romberg
 # ------- Functions -------
 
 
-class halo_iso_0230(Fittable1DModel):
+class ISO_0230(Fittable1DModel):
     '''ISO0230 dark matter halo.
         r:  array_like
             Radius in Kpc. Must be non negative
