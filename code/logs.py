@@ -22,20 +22,22 @@ def log(data_file, name, result,  show=1):
     '''
     new_model = result[0]
     fit_info = result[1]
-    if show:
+    keys = list(fit_info.keys())
+    keys.sort()
+    if show:#To show results on screen
         print(f'Fit info {data_file}, model {name}.')
         print('\n\nResulting model: \n\n', new_model)
         print('\n\nFit details:\n\n')
-        for key in fit_info.keys():
+        for key in keys:
             print(f'{key}\t{fit_info[key]}')
-    else:
+    else:#to save results to file
         index = data_file.index('.')
         data = data_file[:index]
         with open(f'../logs/fit_{data}_{name}.log', 'w') as f:
             f.write(f'Fit info {data_file}, model {name}.')
             f.write('\n\nResulting model: \n\n'+str(new_model))
             f.write('\n\nFit details:\n\n')
-            for key in fit_info.keys():
+            for key in keys:
                 f.write(f'\n{key}\t{fit_info[key]}\n')
         f.close
         print(f'Fit log save to fit_{data}_{name}.log in logs directory')
