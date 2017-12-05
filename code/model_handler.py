@@ -67,10 +67,10 @@ def model_caller(model_name):
         model = einasto2.EINASTO2(1.,1.,1.)
         name = 'Einasto'
     elif 'iso0230' in name:
-        model = iso_0230.halo_ISO_0230(1.,1.)
+        model = iso_0230.ISO_0230(1.,1.)
         name = 'ISO0230'
     elif 'iso' in name:
-        model = iso.halo_ISO(1.,1.)
+        model = iso.ISO(1.,1.)
         name = 'ISO'
     else:
         raise ValueError("Invalid model name. Chek list of available models")

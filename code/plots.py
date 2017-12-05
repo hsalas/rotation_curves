@@ -15,24 +15,6 @@ import matplotlib.pyplot as plt
 #     color_list = xkcd.xkcd_color_code_list()
 # except:
 
-def v_model(table, model, par_model):
-    '''gets the velocity of the model for the observed radius.
-
-    Inputs:
-            table:  QTable, Table.
-                    Table with the galaxy rotation curve.
-            model:  function.
-                    Model function.
-            par_model:  list.
-                        List with the model parameters.
-
-    output:
-            v:
-                Velocity of the dark mater model.
-    '''
-    r = table['radius'].value
-    v = model(r, par_model)
-    return(v)
 
 def v_tot(table, vmodel):
     '''Gives the total velocity as:
@@ -49,14 +31,16 @@ def v_tot(table, vmodel):
                 Total velocity of the galaxy.
 
     '''
-    vbulge = table['vbulge']
-    vdisk = table['vdisk']
-    vgas = table['vgas']
-    vt = np.sqrt(np.power(vmodel,2)+np.power(vbulge,2)+np.power(vdisk,2)+np.power(vgas,2))
+    vbulge = np.power(table['vbulge'].value, 2)
+    vdisk = np.power(table['vdisk'].value, 2)
+    vgas = np.power(table['vgas'].value, 2)
+    vmodel = np.power(vmodel, 2)
+    vt = np.sqrt(vmodel+vbulge+vdisk+vgas)
+    # import pdb; pdb.set_trace()
     return(vt)
 
 
-def plot_rotation_curve(table, ax, components='yes'):
+def plot_rotation_curve(table, ax, components='no', error='no', **kwargs):
     '''Adds a scatter plot of the rotation of a galaxy to a subplot.
 
     inputs:
@@ -65,44 +49,26 @@ def plot_rotation_curve(table, ax, components='yes'):
                     curve of a galaxy, with the correct format.
 
         ax:         matplotlib.axes._subplots.AxesSubplot
-
+        components:  str (yes/no) optional.
+                    if set to yes the components of the rotation curve are
+                    ploted. Default = 'no'
+        error:      str (yes/no) optional.
+                    if set to yes the errorbars of the rotation curve are
+                    ploted. Default = 'no'
     output:
 
     '''
-    ax.scatter(table['radius'], table['vobs'], marker='*', label='V')
+    r = table['radius']
     if components == 'yes':
-        ax.plot(table['radius'], table['vgas'], ':', label='Gas')
-        ax.plot(table['radius'], table['vdisk'], '--', label='Disk')
-        ax.plot(table['radius'], table['vbulge'], marker='o', label='Bulge', ms=2)
+        ax.plot(r, table['vgas'], ':', label='Gas')
+        ax.plot(r, table['vdisk'], '--', label='Disk')
+        ax.plot(r, table['vbulge'], marker='o', label='Bulge', ms=2)
+    if error == 'yes':
+        ax.errorbar(r.value, table['vobs'].value, table['err-vobs'].value, marker='*', ls='None', **kwargs)
+    else:
+        ax.scatter(r, table['vobs'], marker='*', label='V', **kwargs)
 
-#
-# def plot_models(r, v, name, ax, c='g'):
-#     '''Adds a scatter plot of the rotation of a galaxy to a subplot.
-#
-#     inputs:
-#         ax:         matplotlib.axes._subplots.AxesSubplot
-#
-#     output:
-#
-#     '''
-#     ax.plot(r,v, label=name)
-#
-#
-# def plot_vtot():
-#     '''Adds a line plot with the total rotation velocity of a galaxy
-#      to a subplot.
-#
-#     inputs:
-#
-#         ax:         matplotlib.axes._subplots.AxesSubplot
-#
-#     output:
-#
-#     '''
-#     ax.plot(r,v, label='Vtot')
-
-
-def plot(rc_table, model, par_model):
+def plot(rc_table, model, name, show=1, **kwargs):
     '''Creates a figure and the sublpots to it
     input:
         model:
@@ -113,19 +79,19 @@ def plot(rc_table, model, par_model):
 
     output:
     '''
-    model, name = model
-    v = v_model(rc_table, model, par_model)
+    r = rc_table['radius'].value
+    v = model(r)
     vt = v_tot(rc_table, v)
-    r = rc_table['radius']
 
     fig = plt.figure(figsize=(10, 10))
-    # fig.suptitle(title, fontsize=12)
     ax = fig.add_subplot(111)
     ax.set_xlabel('R [Kpc]')
     ax.set_ylabel('V [Km/s]')
     ax.plot(r,v, label=name)
     ax.plot(r,vt, label='Vtot')
-    plot_rotation_curve(rc_table, ax)
-    # plot_models(rc_table, model, par_model, ax)
+    plot_rotation_curve(rc_table, ax, components='yes', **kwargs)
     ax.legend()
-    plt.show()
+    if show:
+        plt.show()
+    else:
+        plt.savefig('../plots/fit_'+name+'.pdf')
