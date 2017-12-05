@@ -36,7 +36,6 @@ def v_tot(table, vmodel):
     vgas = np.power(table['vgas'].value, 2)
     vmodel = np.power(vmodel, 2)
     vt = np.sqrt(vmodel+vbulge+vdisk+vgas)
-    # import pdb; pdb.set_trace()
     return(vt)
 
 
@@ -68,16 +67,17 @@ def plot_rotation_curve(table, ax, components='no', error='no', **kwargs):
     else:
         ax.scatter(r, table['vobs'], marker='*', label='V', **kwargs)
 
-def plot(rc_table, model, name, show=1, **kwargs):
+def plot(rc_table, model, name, datafile, show=1, **kwargs):
     '''Creates a figure and the sublpots to it
     input:
-        model:
-
-        par_model:
-
-        rc_table:
-
-    output:
+        rc_table:   Table, Qtable.
+                    Table with the data.
+        model:  Fittable1DModel.
+                Dark matter model used in the fits
+        name:   str.
+                Name of the model used.
+        datafile:   str.
+                    name of file with data.
     '''
     r = rc_table['radius'].value
     v = model(r)
@@ -94,4 +94,8 @@ def plot(rc_table, model, name, show=1, **kwargs):
     if show:
         plt.show()
     else:
+        index = datafile.index('.')
+        data = datafile[:index]
         plt.savefig('../plots/fit_'+name+'.pdf')
+        plt.close()
+        print('Plot saved to fit_'+data+'_'+name+'.pdf in plots directory')
