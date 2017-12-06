@@ -30,9 +30,11 @@ def fit(data, model, weights='no'):
                     A copy of the input model with parameters set by the fitter.
         info:       dict.
                     Dictionary with the information from the LevMarLSQFitter and
-                    the calculated chi-squared.
-                    The information from LevMarLSQFitter contains the values
-                    returned by scipy.optimize.leastsq see documentation at:
+                    the calculated chi-squared and the uncerntainties of the
+                    parameters.
+                    The information from LevMarLSQFitter contains the
+                    covariance matrix of the parameters and the output
+                    values from scipy.optimize.leastsq see documentation at:
                     https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq.
 
     '''
@@ -53,9 +55,14 @@ def fit(data, model, weights='no'):
     else:# errors not included in the fit
         new_model = pfit(model, x, y, maxiter=1000)
     info = pfit.fit_info
-    # from the results of the fit now we calculate the chi-square values.
+    # from the results of the fit now we calculate the chi-squared values.
     N = len(data)
     n = len(model.parameters)
     s_sq = (info['fvec']**2).sum()/ (N-n)
     info['chi_sqr'] = s_sq
+    # from the results of the fits and the we get the  uncerntainties of the
+    # parameters
+    u = np.sqrt(np.diag(info['param_cov']))
+    # u = np.sqrt(np.diag(info['cov_x']*s_sq))
+    info['uncty_parms'] = u
     return(new_model, info)
